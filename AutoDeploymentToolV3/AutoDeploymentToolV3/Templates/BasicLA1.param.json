@@ -1,0 +1,21 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sqlConnectorApiAppName": {
+            "value": "SQLConn4ClearLog1"
+        },
+        "sqlConnectorApiAppNameSite": {
+            "value": "microsoftsqlconnector2a893e45851a426488d8f2e522609625"
+        },
+        "gatewayName": {
+            "value": "ResourceGroup4CRMAzure129499bb36674d3cae65114d26d12c60"
+        },
+        "logicAppName": {
+            "value": "LogicApp4ClearLog1"
+        },
+        "svcPlanName": {
+            "value": "ServicePlan4CRMAzure"
+        }
+    }
+}

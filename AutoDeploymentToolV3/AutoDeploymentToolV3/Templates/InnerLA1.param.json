@@ -1,0 +1,27 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "httpListenerApiAppName": {
+            "value": "HttpListener4IO"
+        },
+        "httpListenerApiAppNameSite": {
+            "value": "HTTPListener319dfe31828b4d9eb3fac1947bbdfcd8"
+        },
+		"gatewayToApiAppSecret": {
+			"value": "50ed55f5decd1ce0c018b821ab31e4cb90238b01d2bc7c55ac092424361ad5fe"
+		},
+        "crmConnectorApiAppNameSite": {
+            "value": "crmconn4IOEPRSdev1"
+        },
+        "gatewayName": {
+            "value": "ResourceGroup4EPRS129499bb36674d3cae65114d26d12c59"
+        },
+        "logicAppName": {
+            "value": "LogicApp4CRMConnectorIO"
+        },
+        "svcPlanName": {
+            "value": "ServicePlan4EPRS"
+        }
+    }
+}

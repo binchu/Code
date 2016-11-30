@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+	<AppSelected>
+		<Setting name="App" value="SalesDesk" /> <!-- no case sensitive-->
+		<Setting name="Env" value="test" />
+	</AppSelected>
+	<AppSettings name="SalesDesk">
+		<test>
+	    <Setting name="SqlServerName" value="azcrminttcnsql2" />
+	    <Setting name="GeoFlag" value="0" />
+	    <Setting name="User" value="ccrmfb@microsoft.com" />
+			<Setting name="Password" value="C(rmfb@((ounT1@" />	
+			<Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+			<Setting name="ZipFile" value="crmconnector_sandbox.zip" />
+			<Setting name="CrmResourceURL" value="https://salesdesksandbox.crm.dynamics.com/" />	
+	    <Setting name="CRMVersion" value="online" />
+		</test>
+    <uat>
+      <Setting name="SqlServerName" value="azcrmintucnsql4" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" /> 
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="ZipFile" value="crmconnector_uat.zip" />
+      <Setting name="CrmResourceURL" value="https://salesdeskuat.crm.dynamics.com/" />  
+      <Setting name="CRMVersion" value="online" />
+    </uat>
+    <prod>
+      <Setting name="SqlServerName" value="azcrmintpcnsql4" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" /> 
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="ZipFile" value="crmconnector.zip" />
+      <Setting name="CrmResourceURL" value="https://salesdesk.crm.dynamics.com/" />  
+      <Setting name="CRMVersion" value="online" />
+    </prod>
+		<LogicApp>
+			<Entity>
+				<Entity>Contact</Entity>
+				<EntityDBPK>personnelnumber</EntityDBPK>
+				<EntityDBGuidColumnName>App11Guid</EntityDBGuidColumnName>
+				<MAP>
+					"sd_Alias":"@{parse(triggers().outputs.body.Content).ms_alias}",
+					"DoNotBulkEMail": "false",
+					"DoNotEMail": "false",
+					"ContactId": "@{parse(triggers().outputs.body.Content).ContactGuid}",
+					"EMailAddress1": "@{parse(triggers().outputs.body.Content).emailaddress1}",
+					"EmployeeId": "@{parse(triggers().outputs.body.Content).personnelnumber}",
+					"FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+					"LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+					"Action": "@{parse(triggers().outputs.body.Content).ActionCode}"
+				</MAP>
+				<MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>				
+			</Entity>			
+		</LogicApp>	
+	</AppSettings>
+  <AppSettings name="OnePayRoll">
+    <uat>
+      <Setting name="SqlServerName" value="azcrmintucnsql2" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="redmond\\ccrmfb" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector_uat.zip" />
+      <Setting name="CrmResourceURL" value="https://azcrmuextwb01.partners.extranet.microsoft.com/OnePayrollUAT/" />
+      <Setting name="CRMVersion" value="onprem" />
+    </uat>
+    <prod>
+      <Setting name="SqlServerName" value="azcrmintpcnsql2" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="redmond\\ccrmfb" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector.zip" />
+      <Setting name="CrmResourceURL" value="https://crm2013ext.partners.extranet.microsoft.com/onepayroll/" />
+      <Setting name="CRMVersion" value="onprem" />
+    </prod>
+    <test>
+      <Setting name="SqlServerName" value="azcrminttcnsql2" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="redmond\\ccrmdeva" />
+      <Setting name="Password" value="C!0udcrmA((0unt" />
+      <Setting name="ZipFile" value="crmconnector_sandbox.zip" />
+      <Setting name="CrmResourceURL" value="https://azcrmuextwb01.partners.extranet.microsoft.com/OnePayrollUAT041115/" />
+      <Setting name="CRMVersion" value="onprem" />
+    </test>
+    <LogicApp>
+      <Entity>
+        <Entity>Contact</Entity>
+        <EntitySK>EmployeeId</EntitySK>
+        <EntityDBPK>personnelnumber</EntityDBPK>
+        <EntityDBGuidColumnName>App1Guid</EntityDBGuidColumnName>
+        <MAP>
+          "Address1_City": "@{parse(triggers().outputs.body.Content).address1_city}",
+          "Address1_Country": "@{parse(triggers().outputs.body.Content).workingPositionCountry}",
+          "Address1_Line1": "@{parse(triggers().outputs.body.Content).address1_line1}",
+          "Address1_Line2": "@{parse(triggers().outputs.body.Content).address1_line2}",
+          "Address1_Line3": "@{parse(triggers().outputs.body.Content).address1_line3}",
+          "Address1_PostalCode": "@{parse(triggers().outputs.body.Content).address1_postalcode}",
+          "Adx_username": "@{parse(triggers().outputs.body.Content).domain_alias}",
+          "ContactId": "@{parse(triggers().outputs.body.Content).CRMPrimaryKey}",
+          "EMailAddress1": "@{parse(triggers().outputs.body.Content).emailaddress1}",
+          "EMailAddress2": "@{parse(triggers().outputs.body.Content).secondaryEmailAddress}",
+          "EmployeeId": "@{parse(triggers().outputs.body.Content).personnelnumber}",
+          "FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+          "JobTitle": "@{parse(triggers().outputs.body.Content).jobtitle}",
+          "LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+          "MiddleName": "@{parse(triggers().outputs.body.Content).middlename}",
+          "MobilePhone": "@{parse(triggers().outputs.body.Content).mobilephone}",
+          "ops_CompanyCode": "@{parse(triggers().outputs.body.Content).CompanyCode}",
+          "ops_CompanyName": "@{parse(triggers().outputs.body.Content).CompanyName}",
+          "Telephone1": "@{parse(triggers().outputs.body.Content).telephone1}",
+          "Action": "@parse(triggers().outputs.body.Content).ActionCode"
+        </MAP>
+        <MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>
+      </Entity>
+    </LogicApp>
+  </AppSettings>
+  <AppSettings name="MPC">
+    <dev>
+      <Setting name="SqlServerName" value="azcrmintdcnsql2" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmdeva@microsoft.com" />
+      <Setting name="Password" value="C!0udcrmA((0unt" />
+      <Setting name="ZipFile" value="crmconnector_sandbox.zip" />
+      <Setting name="CrmResourceURL" value="https://mpcdev.crm.dynamics.com/" />
+      <Setting name="ClientId" value="0da10fe6-a782-4c00-8a01-aedcda39a23e" />
+      <Setting name="CRMVersion" value="online" />
+    </dev>
+    <uat>
+      <Setting name="SqlServerName" value="azcrmintucnsql1" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector_uat.zip" />
+      <Setting name="CrmResourceURL" value="https://mpcpp.crm.dynamics.com/" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </uat>
+    <prod>
+      <Setting name="SqlServerName" value="azcrmintpcnsq1" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector.zip" />
+      <Setting name="CrmResourceURL" value="https://mpc.crm.dynamics.com/" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </prod>
+    <test>
+      <Setting name="SqlServerName" value="azcrminttcnsql1" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmdeva@microsoft.com" />
+      <Setting name="Password" value="C!0udcrmA((0unt" />
+      <Setting name="ZipFile" value="crmconnector_sandbox.zip" />
+      <Setting name="CrmResourceURL" value="https://mpctest.crm.dynamics.com/" />
+      <Setting name="ClientId" value="0da10fe6-a782-4c00-8a01-aedcda39a23e" />
+      <Setting name="CRMVersion" value="online" />
+    </test>
+    <LogicApp>
+      <Entity>
+        <Entity>Contact</Entity>
+        <EntitySK>EmployeeId</EntitySK>
+        <EntityDBPK>personnelnumber</EntityDBPK>
+        <EntityDBGuidColumnName>App2Guid</EntityDBGuidColumnName>
+        <MAP>
+          "Address1_City": "@{parse(triggers().outputs.body.Content).address1_city}",
+          "Address1_Country": "@{parse(triggers().outputs.body.Content).address1_country}",
+          "Address1_Line1": "@{parse(triggers().outputs.body.Content).address1_line1}",
+          "Address1_Line2": "@{parse(triggers().outputs.body.Content).address1_line2}",
+          "Address1_Line3": "@{parse(triggers().outputs.body.Content).address1_line3}",
+          "Address1_PostalCode": "@{parse(triggers().outputs.body.Content).address1_postalcode}",
+          "Address1_StateOrProvince": "@{parse(triggers().outputs.body.Content).address1_county}",
+          "ContactId": "@{parse(triggers().outputs.body.Content).CRMPrimaryKey}",
+          "EMailAddress1": "@{parse(triggers().outputs.body.Content).emailaddress1}",
+          "EmployeeId": "@{parse(triggers().outputs.body.Content).personnelnumber}",
+          "FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+          "JobTitle": "@{parse(triggers().outputs.body.Content).jobtitle}",
+          "LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+          "MiddleName": "@{parse(triggers().outputs.body.Content).middlename}",
+          "MobilePhone": "@{parse(triggers().outputs.body.Content).mobilephone}",
+          "Telephone1": "@{parse(triggers().outputs.body.Content).telephone1}",
+          "Action": "@{parse(triggers().outputs.body.Content).ActionCode}"
+        </MAP>
+        <MicrosoftAccountEnabled>true</MicrosoftAccountEnabled>
+      </Entity>
+    </LogicApp>
+  </AppSettings>
+	<AppSettings name="OCTO">
+		<uat>
+	      	<Setting name="SqlServerName" value="azcrmintucnsql1" />
+	      	<Setting name="GeoFlag" value="0" />
+	      	<Setting name="User" value="ccrmfb@microsoft.com" />
+			<Setting name="Password" value="C(rmfb@((ounT1@" />	
+			<Setting name="ZipFile" value="crmconnector.zip" />
+			<Setting name="CrmResourceURL" value="https://octouat.crm.dynamics.com/" />				
+			<Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+	      	<Setting name="CRMVersion" value="online" />
+		</uat>
+		<prod>
+	      	<Setting name="SqlServerName" value="azcrmintpcnsql3" />
+	      	<Setting name="GeoFlag" value="0" />
+	      	<Setting name="User" value="ccrmfb@microsoft.com" />
+			<Setting name="Password" value="C(rmfb@((ounT1@" />	
+			<Setting name="ZipFile" value="crmconnector.zip" />
+			<Setting name="CrmResourceURL" value="https://octo.crm.dynamics.com/" />				
+			<Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+	      	<Setting name="CRMVersion" value="online" />
+		</prod>
+		<LogicApp>
+			<Entity>
+				<Entity>Contact</Entity>
+				<EntitySK>EmployeeId</EntitySK>
+				<EntityDBPK>personnelnumber</EntityDBPK>
+				<EntityDBGuidColumnName>App3Guid</EntityDBGuidColumnName>
+				<MAP>
+				 "ContactId": "@{parse(triggers().outputs.body.Content).CRMPrimaryKey}",
+                    "EMailAddress1": "@{parse(triggers().outputs.body.Content).secondaryEmailAddress}",
+                    "EMailAddress2": "@{parse(triggers().outputs.body.Content).emailaddress1}",
+                    "new_Alias": "@{parse(triggers().outputs.body.Content).ms_alias}",
+                    "new_Office": "@{parse(triggers().outputs.body.Content).OfficeLocation}",
+                    "EmployeeId": "@{parse(triggers().outputs.body.Content).personnelnumber}",
+                    "FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+                    "LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+                    "Action": "@{parse(triggers().outputs.body.Content).ActionCode}",
+                    "StateCode": {
+                        "Value": "@{parse(triggers().outputs.body.Content).StateCode}"
+                    },
+                    "StatusCode": {
+                        "Value": "@{parse(triggers().outputs.body.Content).StatusCode}"
+                    }
+				</MAP>
+				<MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>				
+			</Entity>				
+		</LogicApp>
+	</AppSettings>
+	<AppSettings name="GoTools">
+		<uat>
+    	<Setting name="SqlServerName" value="azcrmintucnsql3" />
+    	<Setting name="GeoFlag" value="0" />
+    	<Setting name="User" value="ccrmfb@microsoft.com" />
+			<Setting name="Password" value="C(rmfb@((ounT1@" />	
+			<Setting name="ZipFile" value="crmconnector_uat.zip" />
+			<Setting name="CrmResourceURL" value="https://gotoolsuat.crm.dynamics.com/" />				
+			<Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+    	<Setting name="CRMVersion" value="online" />
+		</uat>
+		<prod>
+    	<Setting name="SqlServerName" value="azcrmintpcnsql3" />
+    	<Setting name="GeoFlag" value="0" />
+    	<Setting name="User" value="ccrmfb@microsoft.com" />
+			<Setting name="Password" value="C(rmfb@((ounT1@" />	
+			<Setting name="ZipFile" value="crmconnector.zip" />
+			<Setting name="CrmResourceURL" value="https://gotools.crm.dynamics.com/" />				
+			<Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+    	<Setting name="CRMVersion" value="online" />
+		</prod>
+		<LogicApp>
+			<Entity>
+				<Entity>Contact</Entity>        
+				<EntityDBPK>personnelnumber</EntityDBPK> <!--accountcode, internalordernbr-->
+				<EntityDBGuidColumnName>App7Guid</EntityDBGuidColumnName>
+				<MAP>
+				 	"Address1_City": "@{parse(triggers().outputs.body.Content).address1_city}",
+          "Address1_Country": "@{parse(triggers().outputs.body.Content).address1_country}",
+          "Address1_Line1": "@{parse(triggers().outputs.body.Content).address1_line1}",
+          "Address1_Line2": "@{parse(triggers().outputs.body.Content).address1_line2}",
+          "Address1_Line3": "@{parse(triggers().outputs.body.Content).address1_line3}",
+          "Address1_PostalCode": "@{parse(triggers().outputs.body.Content).address1_postalcode}",
+          "Address1_StateOrProvince": "@{parse(triggers().outputs.body.Content).address1_county}",
+          "ContactId": "@{parse(triggers().outputs.body.Content).ContactGuid}",
+          "EMailAddress1": "@{parse(triggers().outputs.body.Content).emailaddress1}",
+          "EmployeeId": "@{parse(triggers().outputs.body.Content).personnelnumber}",
+          "FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+          "JobTitle": "@{parse(triggers().outputs.body.Content).jobtitle}",
+          "LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+          "MiddleName": "@{parse(triggers().outputs.body.Content).middlename}",
+          "MobilePhone": "@{parse(triggers().outputs.body.Content).mobilephone}",
+          "Telephone1": "@{parse(triggers().outputs.body.Content).telephone1}",
+          "Action": "@{parse(triggers().outputs.body.Content).ActionCode}"
+				</MAP>
+				<MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>				
+			</Entity>				
+		</LogicApp>
+	</AppSettings>
+	<AppSettings name="LCAOMC">
+		<test>
+	    <Setting name="SqlServerName" value="azcrminttcnsql2" />
+	    <Setting name="GeoFlag" value="0" />
+	    <Setting name="User" value="ccrmfb@microsoft.com" />
+			<Setting name="Password" value="C(rmfb@((ounT1@" />	
+			<Setting name="ZipFile" value="crmconnector_sandbox.zip" />
+			<Setting name="CrmResourceURL" value="https://lcaomcdev.crm.dynamics.com/" />				
+			<Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+	    <Setting name="CRMVersion" value="online" />
+		</test>
+		<uat>
+	    <Setting name="SqlServerName" value="azcrmintucnsql2" />
+	    <Setting name="GeoFlag" value="0" />
+	    <Setting name="User" value="ccrmfb@microsoft.com" />
+			<Setting name="Password" value="C(rmfb@((ounT1@" />	
+			<Setting name="ZipFile" value="crmconnector_uat.zip" />
+			<Setting name="CrmResourceURL" value="https://lcaomcuat.crm.dynamics.com/" />				
+			<Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+	    <Setting name="CRMVersion" value="online" />
+		</uat>
+		<prod>
+	    <Setting name="SqlServerName" value="azcrmintpcnsql4" />
+	    <Setting name="GeoFlag" value="0" />
+	    <Setting name="User" value="ccrmfb@microsoft.com" />
+			<Setting name="Password" value="C(rmfb@((ounT1@" />	
+			<Setting name="ZipFile" value="crmconnector.zip" />
+			<Setting name="CrmResourceURL" value="https://lcaopportunitymanagementcenter.crm.dynamics.com/" />				
+			<Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+	    <Setting name="CRMVersion" value="online" />
+		</prod>
+		<LogicApp>
+			<Entity>
+				<Entity>Contact</Entity>
+				<EntitySK>EmployeeId</EntitySK>
+				<EntityDBPK>personnelnumber</EntityDBPK>
+				<EntityDBGuidColumnName>App6Guid</EntityDBGuidColumnName>
+				<MAP>
+				 	"Address1_City": "@{parse(triggers().outputs.body.Content).address1_city}",
+                    "Address1_Country": "@{parse(triggers().outputs.body.Content).address1_country}",
+                    "Address1_Line1": "@{parse(triggers().outputs.body.Content).address1_line1}",
+                    "Address1_Line2": "@{parse(triggers().outputs.body.Content).address1_line2}",
+                    "Address1_Line3": "@{parse(triggers().outputs.body.Content).address1_line3}",
+                    "Address1_PostalCode": "@{parse(triggers().outputs.body.Content).address1_postalcode}",
+                    "Address1_StateOrProvince": "@{parse(triggers().outputs.body.Content).address1_county}",
+                    "Telephone1": "@{parse(triggers().outputs.body.Content).telephone1}",                    
+                    "ContactId": "@{parse(triggers().outputs.body.Content).CRMPrimaryKey}",
+                    "EmployeeId": "@{parse(triggers().outputs.body.Content).personnelnumber}",                    
+                    "new_CompanyCode": "@{parse(triggers().outputs.body.Content).CompanyCode}",
+					"new_CompanyName": "@{parse(triggers().outputs.body.Content).CompanyName}",
+					"new_Domain": "@{parse(triggers().outputs.body.Content).domain}",
+					"new_MSAlias": "@{parse(triggers().outputs.body.Content).ms_alias}",
+					"OverriddenCreatedOn":  "@{parse(triggers().outputs.body.Content).Created}",
+					"new_workingPositionCountry": "@{parse(triggers().outputs.body.Content).workingPositionCountry}",
+					"FullName": "@{parse(triggers().outputs.body.Content).fullname}",
+					"EMailAddress2": "@{parse(triggers().outputs.body.Content).secondaryEmailAddress}",
+                    "EMailAddress1": "@{parse(triggers().outputs.body.Content).emailaddress1}", 
+                    "FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+                    "JobTitle": "@{parse(triggers().outputs.body.Content).jobtitle}",
+                    "LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+                    "MiddleName": "@{parse(triggers().outputs.body.Content).middlename}",
+                    "MobilePhone": "@{parse(triggers().outputs.body.Content).mobilephone}",                    
+                    "Action": "@{parse(triggers().outputs.body.Content).ActionCode}"
+				</MAP>
+				<MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>				
+			</Entity>				
+		</LogicApp>
+	</AppSettings>
+	<AppSettings name="COSMIC">
+		<uat>
+	    <Setting name="SqlServerName" value="azcrmintucnsql1" />
+	    <Setting name="GeoFlag" value="0" />
+	    <Setting name="User" value="ccrmfb@microsoft.com" />
+			<Setting name="Password" value="C(rmfb@((ounT1@" />	
+			<Setting name="ZipFile" value="crmconnector_uat.zip" />
+			<Setting name="CrmResourceURL" value="https://COSMICPP.CRM.DYNAMICS.COM/" />				
+			<Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+	    <Setting name="CRMVersion" value="online" />
+		</uat>
+		<test>
+	    <Setting name="SqlServerName" value="azcrminttcnsql1" />
+	    <Setting name="GeoFlag" value="0" />
+	    <Setting name="User" value="ccrmfb@microsoft.com" />
+			<Setting name="Password" value="C(rmfb@((ounT1@" />	
+			<Setting name="ZipFile" value="crmconnector_sandbox.zip" />
+			<Setting name="CrmResourceURL" value="https://cosmicdemo.crm.dynamics.com/" />				
+			<Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+	    <Setting name="CRMVersion" value="online" />
+		</test>
+		<LogicApp>
+			<Entity>
+				<Entity>Contact</Entity>
+				<EntitySK>EmployeeId</EntitySK>
+				<EntityDBPK>personnelnumber</EntityDBPK>
+				<EntityDBGuidColumnName>App4Guid</EntityDBGuidColumnName>
+				<MAP>
+					"Address1_City": "@{parse(triggers().outputs.body.Content).address1_city}",
+                    "Address1_Country": "@{parse(triggers().outputs.body.Content).address1_country}",
+                    "Address1_Line1": "@{parse(triggers().outputs.body.Content).address1_line1}",
+                    "Address1_Line2": "@{parse(triggers().outputs.body.Content).address1_line2}",
+                    "Address1_Line3": "@{parse(triggers().outputs.body.Content).address1_line3}",
+                    "Address1_PostalCode": "@{parse(triggers().outputs.body.Content).address1_postalcode}",
+                    "Address1_StateOrProvince": "@{parse(triggers().outputs.body.Content).address1_county}",
+                    "ContactId": "@{parse(triggers().outputs.body.Content).CRMPrimaryKey}",
+                    "EMailAddress1": "@{parse(triggers().outputs.body.Content).emailaddress1}",
+                    "EmployeeId": "@{parse(triggers().outputs.body.Content).personnelnumber}",
+                    "FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+                    "JobTitle": "@{parse(triggers().outputs.body.Content).jobtitle}",
+                    "LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+                    "MiddleName": "@{parse(triggers().outputs.body.Content).middlename}",
+                    "MobilePhone": "@{parse(triggers().outputs.body.Content).mobilephone}",
+                    "Telephone1": "@{parse(triggers().outputs.body.Content).telephone1}",
+                    "Action": "@{parse(triggers().outputs.body.Content).ActionCode}"
+				</MAP>
+				<MicrosoftAccountEnabled>true</MicrosoftAccountEnabled>				
+			</Entity>				
+		</LogicApp>	
+	</AppSettings>
+  <AppSettings name="EPRS">
+    <dev1>
+      <Setting name="SqlServerName" value="t1crmintucnsql1" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector_uat.zip" />
+      <Setting name="CrmResourceURL" value="https://eprsuat.crm.dynamics.com/" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </dev1>
+    <test1>
+      <Setting name="SqlServerName" value="t1crmintpcnsq1" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector.zip" />
+      <Setting name="CrmResourceURL" value="https://eprs.crm.dynamics.com/" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </test1>
+    <LogicApp>
+      <Entity>
+        <Entity>Contact</Entity>
+        <EntitySK></EntitySK>
+        <EntityDBPK>personnelnumber</EntityDBPK>
+        <EntityDBGuidColumnName>App5Guid</EntityDBGuidColumnName>
+        <MAP>
+          "ContactId": "@{parse(triggers().outputs.body.Content).ContactGuid}",
+          "EMailAddress1": "@{parse(triggers().outputs.body.Content).emailaddress1}",
+          "EMailAddress2": "@{parse(triggers().outputs.body.Content).secondaryEmailAddress}",
+          "EmployeeId": "@{parse(triggers().outputs.body.Content).personnelnumber}",
+          "FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+          "LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+          "MiddleName": "@{parse(triggers().outputs.body.Content).middlename}",
+          "new_DomainAlias": "@{parse(triggers().outputs.body.Content).domain_alias}",
+          "new_Domain": "@{parse(triggers().outputs.body.Content).domain}",
+          "new_MSAlias": "@{parse(triggers().outputs.body.Content).ms_alias}",
+          "new_CostCenter": "@{parse(triggers().outputs.body.Content).costcenter}",
+          "new_CostCenterCode": "@{parse(triggers().outputs.body.Content).costcentercode}",
+          "new_CostCenterNumber": "@{parse(triggers().outputs.body.Content).costcenternumber}",
+          "new_PositionNumber": "@{parse(triggers().outputs.body.Content).PositionNbr}",
+          "new_ReportsToPositionNumber": "@{parse(triggers().outputs.body.Content).ReportsToPositionNbr}",
+          "StateCode": {
+          "Value": "@{parse(triggers().outputs.body.Content).StateCode}"
+          },
+          "StatusCode": {
+          "Value": "@{parse(triggers().outputs.body.Content).StatusCode}"
+          },
+          "Action": "@{parse(triggers().outputs.body.Content).ActionCode}"
+        </MAP>
+        <MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>
+      </Entity>
+      <Entity>
+        <Entity>new_gl04account</Entity>
+        <EntitySK></EntitySK>
+        <EntityDBPK>AccountCode</EntityDBPK>
+        <EntityDBGuidColumnName>App5Guid</EntityDBGuidColumnName>
+        <MAP>
+          "new_AccountCode": "@{parse(triggers().outputs.body.Content).AccountCode}",
+          "new_AccountLongDesc": "@{parse(triggers().outputs.body.Content).AccountLongDesc}",
+          "new_AccountShortDesc": "@{parse(triggers().outputs.body.Content).AccountShortDesc}",
+          "new_gl04accountId": "@{parse(triggers().outputs.body.Content).AccountGuid}",
+          "Action": "@{parse(triggers().outputs.body.Content).ActionCode}"
+        </MAP>
+        <MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>
+      </Entity>
+      <Entity>
+        <Entity>new_internalorder</Entity>
+        <EntitySK></EntitySK>
+        <EntityDBPK>InternalOrderNbr</EntityDBPK>
+        <EntityDBGuidColumnName>App5Guid</EntityDBGuidColumnName>
+        <MAP>
+          "new_InternalOrderDesc": "@{parse(triggers().outputs.body.Content).InternalOrderDesc}",
+          "new_internalorderId": "@{parse(triggers().outputs.body.Content).InternalOrderGuid}",
+          "new_InternalOrderNumber": "@{parse(triggers().outputs.body.Content).InternalOrderNbr}",
+          "Action": "@{parse(triggers().outputs.body.Content).ActionCode}"
+        </MAP>
+        <MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>
+      </Entity>
+    </LogicApp>
+  </AppSettings>
+  <AppSettings name="MSCOM">
+    <UAT>
+      <Setting name="SqlServerName" value="azcrmintucnsql4" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector_uat.zip" />
+      <Setting name="CrmResourceURL" value="https://mscomuat.crm.dynamics.com" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </UAT>
+    <test1>
+      <Setting name="SqlServerName" value="t1crmintpcnsq2" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector.zip" />
+      <Setting name="CrmResourceURL" value="https://mscom.crm.dynamics.com" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </test1>
+    <LogicApp>
+      <Entity>
+        <Entity>Contact</Entity>
+        <EntitySK>EmployeeId</EntitySK>
+        <EntityDBPK>personnelnumber</EntityDBPK>
+        <EntityDBGuidColumnName>App8Guid</EntityDBGuidColumnName>
+        <MAP>
+          "ContactId": "@{parse(triggers().outputs.body.Content).CRMPrimaryKey}",
+          "EMailAddress1": "@{parse(triggers().outputs.body.Content).emailaddress1}",
+          "EmployeeId": "@{parse(triggers().outputs.body.Content).personnelnumber}",
+          "FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+          "LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+          "MiddleName": "@{parse(triggers().outputs.body.Content).middlename}",
+          "JobTitle": "@{parse(triggers().outputs.body.Content).jobtitle}",
+          "Address1_City": "@{parse(triggers().outputs.body.Content).address1_city}",
+          "Address1_Country": "@{parse(triggers().outputs.body.Content).address1_country}",
+          "Address1_StateOrProvince": "@{parse(triggers().outputs.body.Content).address1_county}",
+          "Address1_Line1": "@{parse(triggers().outputs.body.Content).address1_line1}",
+          "Address1_Line2": "@{parse(triggers().outputs.body.Content).address1_line2}",
+          "Address1_Line3": "@{parse(triggers().outputs.body.Content).address1_line3}",
+          "Address1_PostalCode": "@{parse(triggers().outputs.body.Content).address1_postalcode}",
+          "Telephone1": "@{parse(triggers().outputs.body.Content).telephone1}",
+          "MobilePhone": "@{parse(triggers().outputs.body.Content).mobilephone}",
+          "adx_identityprovidername": "http://corp.sts.microsoft.com",
+          "Adx_LogonEnabled": "true",
+          "Adx_username": "@{parse(triggers().outputs.body.Content).domain_alias}",
+          "Action": "@{parse(triggers().outputs.body.Content).ActionCode}"
+        </MAP>
+        <MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>
+      </Entity>
+    </LogicApp>
+  </AppSettings>
+  <AppSettings name="SurfaceDP">
+    <uat>
+      <Setting name="SqlServerName" value="azcrmintucnsql3" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector_uat.zip" />
+      <Setting name="CrmResourceURL" value="https://surfacedpcrmuat.crm.dynamics.com/" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </uat>
+    <prod>
+      <Setting name="SqlServerName" value="azcrmintpcnsql3" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector.zip" />
+      <Setting name="CrmResourceURL" value="https://surfacedpcrm.crm.dynamics.com/" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </prod>
+    <test>
+      <Setting name="SqlServerName" value="azcrminttcnsql1" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector_sandbox.zip" />
+      <Setting name="CrmResourceURL" value="https://surfacedpcrmdev.crm.dynamics.com/" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </test>
+    <LogicApp>
+      <Entity>
+        <Entity>Contact</Entity>
+        <EntitySK>EmployeeId</EntitySK>
+        <EntityDBPK>personnelnumber</EntityDBPK>
+        <EntityDBGuidColumnName>App9Guid</EntityDBGuidColumnName>
+        <MAP>
+          "Address1_City": "@{parse(triggers().outputs.body.Content).address1_city}",
+          "Address1_Country": "@{parse(triggers().outputs.body.Content).address1_country}",
+          "Address1_Line1": "@{parse(triggers().outputs.body.Content).address1_line1}",
+          "Address1_Line2": "@{parse(triggers().outputs.body.Content).address1_line2}",
+          "Address1_Line3": "@{parse(triggers().outputs.body.Content).address1_line3}",
+          "Address1_PostalCode": "@{parse(triggers().outputs.body.Content).address1_postalcode}",
+          "Address1_StateOrProvince": "@{parse(triggers().outputs.body.Content).address1_county}",
+          "ContactId": "@{parse(triggers().outputs.body.Content).CRMPrimaryKey}",
+          "EMailAddress1": "@{parse(triggers().outputs.body.Content).emailaddress1}",
+          "EmployeeId": "@{parse(triggers().outputs.body.Content).personnelnumber}",
+          "FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+          "JobTitle": "@{parse(triggers().outputs.body.Content).jobtitle}",
+          "LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+          "MiddleName": "@{parse(triggers().outputs.body.Content).middlename}",
+          "MobilePhone": "@{parse(triggers().outputs.body.Content).mobilephone}",
+          "Telephone1": "@{parse(triggers().outputs.body.Content).telephone1}",
+          "sdp_msalias_text": "@{parse(triggers().outputs.body.Content).ms_alias}",
+          "sdp_isfromfeedstore_bool": "true",
+          "AccountRoleCode": {
+          "Value": "2"
+          },
+          "Action": "@{parse(triggers().outputs.body.Content).ActionCode}",
+          "StateCode": {
+          "Value": "@{parse(triggers().outputs.body.Content).StateCode}"
+          },
+          "StatusCode": {
+          "Value": "@{parse(triggers().outputs.body.Content).StatusCode}"
+          }
+        </MAP>
+        <MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>
+      </Entity>
+    </LogicApp>
+  </AppSettings>
+  <AppSettings name="HRSupport">
+    <uat>
+      <Setting name="SqlServerName" value="azcrmintucnsql1" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector_uat.zip" />
+      <Setting name="CrmResourceURL" value="" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </uat>
+    <test>
+      <Setting name="SqlServerName" value="azcrminttcnsql1" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector_sandbox.zip" />
+      <Setting name="CrmResourceURL" value="" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </test>
+    <dev>
+      <Setting name="SqlServerName" value="azcrmintdcnsql2" />
+      <Setting name="GeoFlag" value="0" />
+      <Setting name="User" value="ccrmfb@microsoft.com" />
+      <Setting name="Password" value="C(rmfb@((ounT1@" />
+      <Setting name="ZipFile" value="crmconnector_sandbox.zip" />
+      <Setting name="CrmResourceURL" value="https://hrsupportdev.crm.dynamics.com/" />
+      <Setting name="ClientId" value="c51b684d-cbe5-4b51-b9c9-6b596dffae66" />
+      <Setting name="CRMVersion" value="online" />
+    </dev>
+    <LogicApp>
+      <Entity>
+        <Entity>Contact</Entity>
+        <EntitySK>new_PersonnelNumber</EntitySK>
+        <EntityDBPK>personnelnumber</EntityDBPK>
+        <EntityDBGuidColumnName>App2Guid</EntityDBGuidColumnName>
+        <MAP>
+          "ContactId": "@{parse(triggers().outputs.body.Content).CRMPrimaryKey}",
+          "new_PersonnelNumber": "@{parse(triggers().outputs.body.Content).personnelnumber}",
+          "new_Alias": "@{parse(triggers().outputs.body.Content).ms_alias}",
+          "FirstName": "@{parse(triggers().outputs.body.Content).firstname}",
+          "LastName": "@{parse(triggers().outputs.body.Content).lastname}",
+          "EMailAddress1": "@{parse(triggers().outputs.body.Content).emailaddress1}",
+          "EMailAddress2": "@{parse(triggers().outputs.body.Content).secondaryEmailAddress}",
+          "Telephone1": "@{parse(triggers().outputs.body.Content).telephone1}",
+          "MobilePhone": "@{parse(triggers().outputs.body.Content).mobilephone}",
+          "JobTitle": "@{parse(triggers().outputs.body.Content).jobtitle}",
+          "new_Location": "@{concat(parse(triggers().outputs.body.Content).BuildingName,'/', parse(triggers().outputs.body.Content).RoomNumber)}",
+          "Address1_Line1": "@{parse(triggers().outputs.body.Content).address1_line1}",
+          "Address1_Line2": "@{parse(triggers().outputs.body.Content).address1_line2}",
+          "Address1_Line3": "@{parse(triggers().outputs.body.Content).address1_line3}",
+          "Address1_City": "@{parse(triggers().outputs.body.Content).address1_city}",
+          "Address1_StateOrProvince": "@{parse(triggers().outputs.body.Content).address1_county}",
+          "Address1_PostalCode": "@{parse(triggers().outputs.body.Content).address1_postalcode}",
+          "new_Company": "@{parse(triggers().outputs.body.Content).CompanyName}",
+          "scrum4_CompanyCode": "@{parse(triggers().outputs.body.Content).CompanyCode}",
+          "new_CostCenterCode": "@{parse(triggers().outputs.body.Content).costcentercode}",
+          "new_CostCenterName": "@{parse(triggers().outputs.body.Content).costcenter}",
+          "StatusCode": "@{parse(triggers().outputs.body.Content).StatusCode}",
+          "StateCode": "@{parse(triggers().outputs.body.Content).StateCode}",
+          "Action": "@{parse(triggers().outputs.body.Content).ActionCode}",
+          "relonl_manager": {
+          "Id": "@{parse(triggers().outputs.body.Content).Manager}",
+          "LogicalName": "contact"
+          }
+        </MAP>
+        <MicrosoftAccountEnabled>false</MicrosoftAccountEnabled>
+      </Entity>
+    </LogicApp>
+  </AppSettings>
+</Config>

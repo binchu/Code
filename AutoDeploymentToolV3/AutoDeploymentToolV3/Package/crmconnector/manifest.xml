@@ -1,0 +1,4 @@
+﻿<MSDeploy.iisApp>
+    <iisapp path="StarterSite" />
+    <setAcl path="StarterSite/App_Data" setAclAccess="ReadAndExecute,Write" />
+</MSDeploy.iisApp>

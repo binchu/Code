@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "serverName": {
+          "value": "t1crmintpcnsq2"
+        },
+        "serverLocation": {
+          "value": "West US"
+        },
+        "administratorLogin": {
+          "value": "SQLSA"
+        },
+        "administratorLoginPassword": {
+          "value": "C!0udcrm@((0unt"
+        },
+        "databaseName": {
+          "value": "UtilityCRM_FeedstoreStaging"
+        }
+    }
+}

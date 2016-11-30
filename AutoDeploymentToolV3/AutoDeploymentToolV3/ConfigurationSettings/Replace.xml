@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+	<File name="ResourceGroupAndServicePlan.param.json">
+		<kv key="ServicePlanName">"$global:CurrentServicePlanName"</kv>
+	</File>
+	<File name="DataBase.Param.json">
+		<kv key="SqlServerName">"$global:sqlServerName"</kv>
+		<kv key="ServerLocation">"$global:BasicResourceGroupLocation"</kv>
+		<kv key="AdminLogin">"$global:sqlUserName"</kv>
+		<kv key="AdminPwd">"$global:sqlPassword"</kv>
+		<kv key="DataBaseName">"$global:sqlDatabaseName"</kv>
+	</File>
+	<File name="DatabaseProfile.xml">
+		<kv key="SqlServerName">"$global:sqlServerName"</kv>
+		<kv key="SqlUserName">"$global:sqlUserName"</kv>
+		<kv key="SqlPassword">"$global:sqlPassword"</kv>
+		<kv key="SqlDatabase">"$global:sqlDatabaseName"</kv>
+	</File>
+	<File name="BasicLA.json">
+		<kv key="SqlServerName">"$global:sqlServerName"</kv>
+		<kv key="SqlPortNumber">"$global:sqlPortNumber"</kv>
+		<kv key="SqlUserName">"$global:sqlUserName"</kv>
+		<kv key="SqlPassword">"$global:sqlPassword"</kv>
+		<kv key="SqlDatabase">"$global:sqlDatabaseName"</kv>
+		<kv key="SqlProcedures">"CRMAzure.spClearLog"</kv>
+		<kv key="frequency">"Month"</kv>
+		<kv key="interval">"1"</kv>
+		<kv key="JSONExecuteProcedureOn">"CRMAzurespClearLog"</kv>
+		<kv key="requestMessage">""</kv>
+	</File>
+	<File name="BasicLA.param.json">
+		<kv key="SqlConnectorName">"$global:currentSqlConnectorName"</kv>
+		<kv key="SqlConnectorSiteName">"$global:currentSqlConnectorSiteName"</kv>
+		<kv key="GatewayName">"$global:currentGatewayName"</kv>
+		<kv key="logicAppName">"$global:currentlogicAppName"</kv>
+		<kv key="ServicePlanName">"$global:currentServicePlanName"</kv>
+	</File>
+	<File name="InnerLA.json">		
+		<kv key="CRMVersion">"$global:CRMVersion"</kv>
+		<kv key="CrmResourceURL">"$global:crmResourceURL"</kv>
+		<kv key="ClientId">"$global:clientId"</kv>
+		<kv key="User">"$global:user"</kv>
+		<kv key="Password">"$global:password"</kv>
+
+		<kv key="MicrosoftAccountEnabled">"$global:currentMicrosoftAccountEnabled"</kv>
+		<kv key="EntityName">"$global:crmEntityName"</kv>
+		<kv key="CrmSecondPrimaryKey">"$global:currentCrmSecondPrimaryKey"</kv>
+		<kv key="CRMConnectorURL">"https://$global:currentCrmConnectorApiAppNameSite.azurewebsites.net/api/entity"</kv>
+		<kv key="MAP">"$global:currentMAP"</kv>
+		
+		<kv key="AzureStorageName">"$global:storageAccountName"</kv>
+		<kv key="AzureContainer">"$global:containerName"</kv>
+		<kv key="ZipFile">"$global:zipToUpload"</kv>
+	</File>
+	<File name="InnerLA.param.json">
+		<kv key="HttpListenerApiAppName">"$global:currentHttpListenerApiAppName"</kv>
+		<kv key="HttpListenerApiAppNameSite">"$global:currentHttpListenerApiAppNameSite"</kv>
+		<kv key="GatewayToApiAppSecret">"$global:currentGatewayToApiAppSecret"</kv>
+		<kv key="CrmConnectorApiAppNameSite">"$global:currentCrmConnectorApiAppNameSite"</kv>
+		<kv key="GatewayName">"$global:currentGatewayName"</kv>
+		<kv key="LogicAppName">"$global:currentlogicAppName"</kv>
+		<kv key="SvcPlanName">"$global:ServicePlanName"</kv>
+	</File>
+	<File name="OutterLA.json">
+		<kv key="SqlServerName">"$global:sqlServerName"</kv>
+		<kv key="SqlPortNumber">"$global:sqlPortNumber"</kv>
+		<kv key="SqlUserName">"$global:sqlUserName"</kv>
+		<kv key="SqlPassword">"$global:sqlPassword"</kv>
+		<kv key="SqlDatabase">"$global:sqlDatabaseName"</kv>
+		<kv key="SqlProcedures">"CRMAzure.spLog"</kv>
+		<kv key="PolledDataAvailableStatement">"exec CRMAzure.spCheckAvailable '$global:appName','$global:currentEntityName'"</kv>
+		<kv key="PollingStatement">"exec CRMAzure.spPollData '$global:appName','$global:currentEntityName','$global:currentEntityDBPK','$global:currentEntityDBGuidColumnName'"</kv>
+		<kv key="frequency">"Minute"</kv>
+		<kv key="interval">"1"</kv>
+		<kv key="HttpListenerURL">"$global:currentHttpListenerApiAppNameSite"</kv>
+		<kv key="JSONExecuteProcedureOn">"CRMAzurespLog"</kv>
+		<kv key="requestMessage">'"RecordGuid": "@{parse(body(''http'')).RecordGuid}",
+								"RecordId": "@first(triggers().outputs.body.Rows).' + $global:currentEntityDBPK + '",
+								"LogStatusCode": "@parse(body(''http'')).LogStatusCode",
+								"MessageText": "@{parse(body(''http'')).MessageText}",
+								"AppName": "' + $global:appName + '",
+								"ActionCode": "@parse(parse(body(''http'')).InputData).Action",
+								"FSTableName": "' + $global:currentEntityName + '"'</kv>
+		
+	</File>
+	<File name="OutterLA.param.json">
+		<kv key="SqlConnectorApiAppName">"$global:currentSqlConnectorName"</kv>
+		<kv key="SqlConnectorApiAppNameSite">"$global:currentSqlConnectorSiteName"</kv>
+		<kv key="GatewayName">"$global:currentGatewayName"</kv>
+		<kv key="LogicAppName">"$global:currentLogicAppName"</kv>
+		<kv key="SvcPlanName">"$global:ServicePlanName"</kv>	
+	</File>
+</Config>
