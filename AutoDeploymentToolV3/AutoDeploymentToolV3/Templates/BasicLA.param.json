@@ -1,0 +1,21 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sqlConnectorApiAppName": {
+            "value": "##SqlConnectorName##"
+        },
+        "sqlConnectorApiAppNameSite": {
+            "value": "##SqlConnectorSiteName##"
+        },
+        "gatewayName": {
+            "value": "##GatewayName##"
+        },
+        "logicAppName": {
+            "value": "##logicAppName##"
+        },
+        "svcPlanName": {
+            "value": "##ServicePlanName##"
+        }
+    }
+}

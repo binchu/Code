@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="D:\CRM\Task1-PackageDeployment\SRC\CRM Azure Connector\Source\CRMConnectorRESTforOnline\CRMConnectorAPIApp\obj\Release\Package\PackageTmp" />
+  <setAcl path="D:\CRM\Task1-PackageDeployment\SRC\CRM Azure Connector\Source\CRMConnectorRESTforOnline\CRMConnectorAPIApp\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="D:\CRM\Task1-PackageDeployment\SRC\CRM Azure Connector\Source\CRMConnectorRESTforOnline\CRMConnectorAPIApp\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>

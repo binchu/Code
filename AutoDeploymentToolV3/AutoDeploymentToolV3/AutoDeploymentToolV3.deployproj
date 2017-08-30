@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>8ea73298-ad93-4d7a-9aaa-1722f4fd54ec</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworkIdentifier>Deployment</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>1.0</TargetFrameworkVersion>
+    <PrepareForBuildDependsOn>
+    </PrepareForBuildDependsOn>
+  </PropertyGroup>
+  <Import Condition=" Exists('Deployment.targets') " Project="Deployment.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  <!-- vertag<:>start tokens<:>maj.min -->
+  <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
+  <!-- vertag<:>end -->
+  <ItemGroup>
+    <None Include="ConfigurationSettings\CCRM.publishsettings" />
+    <None Include="ConfigurationSettings\readme.txt" />
+    <None Include="ConfigurationSettings\Replace.xml" />
+    <None Include="ConfigurationSettings\SysConfig.xml" />
+    <None Include="ConfigurationSettings\UserConfig.xml" />
+    <None Include="Deployment.targets">
+      <Visible>False</Visible>
+    </None>
+    <None Include="Package\crmconnector.zip" />
+    <None Include="Package\crmconnector_sandbox.zip" />
+    <None Include="Package\crmconnector_uat.zip" />
+    <None Include="Package\LogicAppStagingDBForCRM.dacpac" />
+    <None Include="Run.ps1" />
+    <None Include="Scripts\CommonFunctions.ps1" />
+    <None Include="Scripts\CreateAzureStorage.ps1" />
+    <None Include="Scripts\CreateBasicLogicApps.ps1" />
+    <None Include="Scripts\CreateBasicResourceGroup.ps1" />
+    <None Include="Scripts\CreateDB.ps1" />
+    <None Include="Scripts\CreateEntityLogicApps.ps1" />
+    <None Include="Scripts\GetGlobalVariables.ps1" />
+    <None Include="Scripts\LoginInAzureAccount.ps1" />
+    <None Include="Templates\BasicLA.json" />
+    <None Include="Templates\BasicLA.param.json" />
+    <None Include="Templates\BasicLA1.json" />
+    <None Include="Templates\BasicLA1.param.json" />
+    <None Include="Templates\DataBase.json" />
+    <None Include="Templates\DataBase.param.json" />
+    <None Include="Templates\Database1.param.json" />
+    <None Include="Templates\DatabaseProfile.xml" />
+    <None Include="Templates\DatabaseProfile1.xml" />
+    <None Include="Templates\DataBaseV12.json" />
+    <None Include="Templates\InnerLA.json" />
+    <None Include="Templates\InnerLA.param.json" />
+    <None Include="Templates\InnerLA1.json" />
+    <None Include="Templates\InnerLA1.param.json" />
+    <None Include="Templates\LA1.json" />
+    <None Include="Templates\LA2.json" />
+    <None Include="Templates\OutterLA.json" />
+    <None Include="Templates\OutterLA.param.json" />
+    <None Include="Templates\OutterLA1.json" />
+    <None Include="Templates\OutterLA1.param.json" />
+    <None Include="Templates\ResourceGroupAndServicePlan.json" />
+    <None Include="Templates\ResourceGroupAndServicePlan.Param.json" />
+    <None Include="Templates\ResourceGroupAndServicePlan1.Param.json" />
+    <None Include="Templates\Template_HttpListenerConnector.json" />
+    <None Include="Templates\Template_SqlConnector.json" />
+  </ItemGroup>
+  <Target Name="GetReferenceAssemblyPaths" />
+</Project>

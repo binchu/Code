@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+	<PublishSettings>CCRM.publishsettings</PublishSettings>
+	<Subscription>
+		<Environment name="learning">
+			<Setting name="SelectedSubscription" value="Dynamics CRM Learning" />		
+		</Environment>	
+		<Environment name="dev1">
+			<Setting name="SelectedSubscription" value="Dynamics CRM Dev1" />		
+		</Environment>	
+		<Environment name="dev">
+			<Setting name="SelectedSubscription" value="Dynamics CRM Dev" />	
+		</Environment>
+		<Environment name="test">
+			<Setting name="SelectedSubscription" value="Dynamics CRM Test" />
+		</Environment>	
+		<Environment name="test1">
+			<Setting name="SelectedSubscription" value="Dynamics CRM Test1" />
+		</Environment>	
+		<Environment name="uat">		
+			<Setting name="SelectedSubscription" value="Dynamics CRM UAT" />		
+		</Environment>		
+		<Environment name="prod">		
+			<Setting name="SelectedSubscription" value="Dynamics CRM Prod" />		
+		</Environment>	
+	</Subscription>
+	<DBSettings>
+		<Setting name="SqlPortNumber" value="1433" />
+		<Setting name="SqlUserName" value="SQLSA" />
+		<Setting name="SqlPassword" value="C!0udcrm@((0unt" />
+		<Setting name="SqlDatabase" value="UtilityCRM_FeedstoreStaging" />
+		<Setting name="DacpacFile" value="LogicAppStagingDBForCRM.dacpac" />
+	</DBSettings>
+	<StorageSettings>		
+		<Setting name="Location" value="Central US" />
+		<Setting name="ContainerName" value="crmconnectorcontainer" />	
+	</StorageSettings>	
+	<ResourceGroupSettings>
+		<Basic>
+			<BasicResourceGroupName>ResourceGroup4CRMAzure</BasicResourceGroupName>
+			<BasicServicePlanName>ServicePlan4CRMAzure</BasicServicePlanName>
+			<BasicLocation>West US</BasicLocation>
+			<BasicLAFalg>1</BasicLAFalg>
+			<BasicSqlConnectorName>SQLConn4ClearLog</BasicSqlConnectorName>
+			<BasicLogicAppName>LogicApp4ClearLog</BasicLogicAppName>
+		</Basic>
+		<Entity>
+			<Location>West US</Location>
+		</Entity>
+	</ResourceGroupSettings>	
+</Config>

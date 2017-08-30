@@ -1,0 +1,472 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "httpListenerApiAppName": {
+            "type": "string"
+        },
+        "httpListenerApiAppNameSite": {
+            "type": "string"
+        },
+        "crmConnectorApiAppNameSite": {
+            "type": "string"
+        },
+        "gatewayName": {
+            "type": "string"
+        },
+        "logicAppName": {
+            "type": "string"
+        },
+        "svcPlanName": {
+            "type": "string"
+        },
+        "sku": {
+            "type": "string",
+            "defaultValue": "Premium",
+            "allowedValues": [
+                "Free",
+                "Basic",
+                "Standard",
+                "Premium"
+            ]
+        },
+        "svcPlanSize": {
+            "defaultValue": "2",
+            "type": "string",
+            "allowedValues": [
+                "0",
+                "1",
+                "2"
+            ]
+        },
+        "gatewayToApiAppSecret": {
+            "defaultValue": "0000000000000000000000000000000000000000000000000000000000000000",
+            "type": "securestring",
+            "metadata": {
+                "description": "The secret for the sql connector."
+            }
+        }
+    },
+    "variables": {
+        "$httpListenerPackageId": "HTTPListener",
+	"$crmConnectorPackageId": "Microsoft.ApiApp",
+        "$nugetFeed": "http://apiapps-preview.nuget.org/api/v2/"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2015-04-01",
+            "name": "[parameters('svcPlanName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "AppServicePlan"
+            },
+            "properties": {
+                "name": "[parameters('svcPlanName')]",
+                "sku": "[parameters('sku')]",
+                "workerSize": "[parameters('svcPlanSize')]",
+                "numberOfWorkers": 1
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2015-04-01",
+            "name": "[parameters('gatewayName')]",
+            "location": "[resourceGroup().location]",
+            "kind": "gateway",
+            "tags": {
+                "displayName": "GatewayHost"
+            },
+            "resources": [
+                {
+                    "type": "providers/links",
+                    "apiVersion": "2015-01-01",
+                    "name": "Microsoft.Resources/gateway",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites',parameters('gatewayName'))]"
+                    ],
+                    "properties": {
+                        "targetId": "[resourceId('Microsoft.AppService/gateways', parameters('gatewayName'))]"
+                    }
+                }
+            ],
+            "dependsOn": [
+                "[concat(resourceGroup().id, '/providers/Microsoft.Web/serverfarms/',parameters('svcPlanName'))]"
+            ],
+            "properties": {
+                "name": "[parameters('gatewayName')]",
+                "gatewaySiteName": "[parameters('gatewayName')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('svcPlanName'))]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "ApiAppsGateway_EXTENSION_VERSION",
+                            "value": "latest"
+                        },
+                        {
+                            "name": "EmaStorage",
+                            "value": "D:\\home\\data\\apiapps"
+                        },
+                        {
+                            "name": "WEBSITE_START_SCM_ON_SITE_CREATION",
+                            "value": "1"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.AppService/gateways",
+            "apiVersion": "2015-03-01-preview",
+            "name": "[parameters('gatewayName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "Gateway"
+            },
+            "resources": [
+                {
+                    "type": "providers/links",
+                    "apiVersion": "2015-01-01",
+                    "name": "Microsoft.Resources/gatewaySite",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.AppService/gateways',parameters('gatewayName'))]"
+                    ],
+                    "properties": {
+                        "targetId": "[resourceId('Microsoft.Web/sites',parameters('gatewayName'))]"
+                    }
+                },
+                {
+                    "type": "tokens",
+                    "apiVersion": "2015-03-01-preview",
+                    "location": "[resourceGroup().location]",
+                    "name": "[parameters('logicAppName')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.AppService/gateways', parameters('gatewayName'))]"
+                    ]
+                }
+            ],
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('gatewayName'))]"
+            ],
+            "properties": {
+                "host": {
+                    "resourceName": "[parameters('gatewayName')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2015-04-01",
+            "name": "[parameters('httpListenerApiAppNameSite')]",
+            "location": "[resourceGroup().location]",
+            "kind": "apiApp",
+            "tags": {
+                "packageId": "HTTPListener"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.AppService/gateways', parameters('gatewayName'))]",
+				"[resourceId('Microsoft.Web/serverfarms', parameters('svcPlanName'))]"
+            ],
+            "resources": [
+                {
+                    "type": "siteextensions",
+                    "apiVersion": "2015-02-01",
+                    "name": "[variables('$httpListenerPackageId')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', parameters('httpListenerApiAppNameSite'))]"
+                    ],
+                    "properties": {
+                        "type": "WebRoot",
+                        "feed_url": "[variables('$nugetFeed')]",
+						"version": "0.0.681"
+                    }
+                },
+                {
+                    "type": "providers/links",
+                    "apiVersion": "2015-01-01",
+                    "name": "Microsoft.Resources/apiApp",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', parameters('httpListenerApiAppNameSite'))]"
+                    ],
+                    "properties": {
+                        "targetId": "[resourceId('Microsoft.AppService/apiapps', parameters('httpListenerApiAppName'))]"
+                    }
+                }
+            ],
+            "properties": {
+                "gatewaySiteName": "[parameters('gatewayName')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('svcPlanName'))]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "EMA_MicroserviceId",
+                            "value": "[parameters('httpListenerApiAppName')]"
+                        },
+                        {
+                            "name": "EMA_Secret",
+                            "value": "[parameters('gatewayToAPIappSecret')]"
+                        },
+                        {
+                            "name": "EMA_RuntimeUrl",
+                            "value": "[concat('https://', reference(resourceId('Microsoft.Web/sites', parameters('gatewayName'))).hostNames[0])]"
+                        },
+                        {
+                            "name": "WEBSITE_START_SCM_ON_SITE_CREATION",
+                            "value": "1"
+                        },
+						{
+                            "name": "AutoResponse",
+                            "value": "false"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.AppService/apiapps",
+            "apiVersion": "2015-03-01-preview",
+            "name": "[parameters('httpListenerApiAppName')]",
+            "location": "[resourceGroup().location]",
+            "resources": [
+                {
+                    "type": "providers/links",
+                    "apiVersion": "2015-01-01",
+                    "name": "Microsoft.Resources/apiAppSite",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.AppService/apiapps', parameters('httpListenerApiAppName'))]"
+                    ],
+                    "properties": {
+                        "targetId": "[resourceId('Microsoft.Web/sites', parameters('httpListenerApiAppNameSite'))]"
+                    }
+                }
+            ],
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/siteextensions', parameters('httpListenerApiAppNameSite'), variables('$httpListenerPackageId'))]"
+            ],
+            "properties": {
+                "package": {
+                    "id": "[variables('$httpListenerPackageId')]"
+                },
+                "host": {
+                    "resourceName": "[parameters('httpListenerApiAppNameSite')]"
+                },
+                "gateway": {
+                    "resourceName": "[parameters('gatewayName')]"
+                },
+				"accessLevel": "PublicAnonymous"
+            }
+        },
+		{
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2015-04-01",
+            "name": "[parameters('crmConnectorApiAppNameSite')]",
+            "location": "[resourceGroup().location]",
+            "kind": "api",
+			"tags": {
+                "displayName": "APIApp"
+            },
+            "resources": [
+                {
+                    "type": "siteextensions",
+                    "tags": {
+                        "displayName": "APIAppExtension"
+                    },
+                    "apiVersion": "2015-08-01",
+                    "name": "[variables('$crmConnectorPackageId')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', parameters('crmConnectorApiAppNameSite'))]"
+                    ],
+                    "properties": {
+                        "type": "WebRoot",
+                        "feed_url": "[variables('$nugetFeed')]"
+                    }
+                },		
+                {
+                    "name": "MSDeploy",
+                    "type": "Extensions",
+                    "apiVersion": "2015-08-01",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', parameters('crmConnectorApiAppNameSite'))]"
+                    ],
+                    "properties": {
+                        "packageUri": "https://crmconnectorcndev1.blob.core.windows.net/crmconnectorcontainer/crmconnector_uat.zip",
+                        "dbType": "None",
+                        "connectionString": "",
+                        "setParameters": { "Application Path": "[parameters('crmConnectorApiAppNameSite')]" }
+                    }
+                }
+            ],
+            "properties": {
+                "name": "[parameters('crmConnectorApiAppNameSite')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('svcPlanName'))]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "EMA_MicroserviceId",
+                            "value": "[parameters('crmConnectorApiAppNameSite')]"
+                        },
+                        {
+                            "name": "EMA_Secret",
+                            "value": "[parameters('gatewayToAPIappSecret')]"
+                        },
+                        {
+                            "name": "EMA_RuntimeUrl",
+                            "value": "[concat('https://', reference(resourceId('Microsoft.Web/sites', parameters('gatewayName'))).hostNames[0])]"
+                        },
+                        {
+                            "name": "WEBSITE_START_SCM_ON_SITE_CREATION",
+                            "value": "1"
+                        },
+                        {
+                            "name": "MicrosoftAccountEnabled",
+                            "value": "false"
+                        },                        
+                        {
+                            "name": "CRMVersion",
+                            "value": "online"
+                        },
+                        {
+                            "name": "ida:CrmResourceURL",
+                            "value": "https://eprsuat.crm.dynamics.com/"
+                        },
+						{
+                            "name": "ida:ClientId",
+                            "value": "c51b684d-cbe5-4b51-b9c9-6b596dffae66"
+                        },
+						{
+                            "name": "ida:User",
+                            "value": "ccrmfb@microsoft.com"
+                        },
+						{
+                            "name": "ida:Password",
+                            "value": "C(rmfb@((ounT1@"
+                        },
+                        {
+                            "name": "EntityName",
+                            "value": "new_internalorder"
+                        },
+                        { 
+                            "name": "CrmSecondPrimaryKey",
+                            "value": ""
+                        }
+                    ]
+                }
+            }
+        },	
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2015-02-01-preview",
+            "name": "[parameters('logicAppName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "LogicApp"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.AppService/apiApps', parameters('httpListenerApiAppName'))]"
+            ],
+            "properties": {
+                "sku": {
+                    "name": "[parameters('sku')]",
+                    "plan": {
+                        "id": "[concat(resourceGroup().id, '/providers/Microsoft.Web/serverfarms/',parameters('svcPlanName'))]"
+                    }
+                },
+                "definition": {
+                    "$schema": "http://schema.management.azure.com/providers/Microsoft.Logic/schemas/2014-12-01-preview/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "token": {
+                            "defaultValue": "[reference(resourceId('Microsoft.AppService/gateways/tokens', parameters('gatewayName'), parameters('logicAppName'))).token]",
+                            "type": "String",
+                            "metadata": {
+                                "token": {
+                                    "name": "token"
+                                }
+                            }
+                        }
+                    },
+                    "triggers": {
+                        "httplistener4contact": {
+                            "recurrence": {
+                                "frequency": "Hour",
+                                "interval": 1
+                            },
+                            "type": "ApiApp",
+                            "inputs": {
+                                "apiVersion": "2015-01-14",
+                                "host": {
+                                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.AppService/apiApps/',parameters('httpListenerApiAppName'))]",
+                                    "gateway": "[concat('https://', reference(resourceId('Microsoft.Web/sites', parameters('gatewayName'))).hostNames[0])]"
+                                },
+                                "operation": "Trigger",
+                                "parameters": { 
+									"triggerId": "@workflow().name",
+									"parameters": {
+										"callbackUrl": "@accessKeys('default').primary.secretRunUri",
+										"inputs": {
+											"HttpMethod": "Post"
+										}
+									}
+								},
+                                "authentication": {
+                                    "type": "Raw",
+                                    "scheme": "Zumo",
+                                    "parameter": "@parameters('token')"
+                                },
+                                "conditions": [
+									{
+										"expression": "@bool('false')"
+									}
+								]
+                            }
+                        }
+                    },
+                    "actions": {
+						"http": {
+							"type": "Http",
+							"inputs": {
+								"method": "POST",
+								"uri": "https://crmconn4IOEPRSdev1.azurewebsites.net/api/entity",
+								"body": {
+									
+          "new_InternalOrderDesc": "@{parse(triggers().outputs.body.Content).InternalOrderDesc}",
+          "new_internalorderid": "@{parse(triggers().outputs.body.Content).InternalOrderGuid}",
+          "new_InternalOrderNumber": "@{parse(triggers().outputs.body.Content).InternalOrderNbr}",
+          "Action": "@{parse(triggers().outputs.body.Content).ActionCode}"
+        				
+								}
+							},
+							"conditions": []
+						},
+                        "httplistener4contact0": {
+                            "type": "ApiApp",
+                            "inputs": {
+                                "apiVersion": "2015-01-14",
+                                "host": {
+                                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.AppService/apiApps/',parameters('httpListenerApiAppName'))]",
+                                    "gateway": "[concat('https://', reference(resourceId('Microsoft.Web/sites', parameters('gatewayName'))).hostNames[0])]"
+                                },
+                                "operation": "SendHttpResponse",
+                                "parameters": {
+                                    "requestId": "@{triggers().outputs.body.RequestId}",
+									"parameters": {
+										"ResponseContent": "@body('http')",
+										"ResponseStatusCode": "200"
+									}
+                                },
+                                "authentication": {
+                                    "type": "Raw",
+                                    "scheme": "Zumo",
+                                    "parameter": "@parameters('token')"
+                                }
+                            },
+                            "conditions": []
+                        }
+                    },
+                    "outputs": { }
+                },
+                "parameters": { }
+            }
+        }
+    ]
+}

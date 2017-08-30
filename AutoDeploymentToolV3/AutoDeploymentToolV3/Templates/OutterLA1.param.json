@@ -1,0 +1,21 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sqlConnectorApiAppName": {
+            "value": "SQLConn4IO"
+        },
+        "sqlConnectorApiAppNameSite": {
+            "value": "MicrosoftSqlConnector4df91569079c46529337c40f1d9aadfe"
+        },
+        "gatewayName": {
+            "value": "ResourceGroup4EPRS129499bb36674d3cae65114d26d12c59"
+        },
+        "logicAppName": {
+            "value": "LogicApp4IO"
+        },
+        "svcPlanName": {
+            "value": "ServicePlan4EPRS"
+        }
+    }
+}

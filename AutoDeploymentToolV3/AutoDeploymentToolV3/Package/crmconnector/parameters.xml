@@ -1,0 +1,11 @@
+﻿<parameters>
+
+    <parameter name="Application Path" description="Full site path where you would like to install your application (i.e., Default Web Site/StarterSite)" defaultValue="Default Web Site/StarterSite" tags="iisapp">
+        <parameterEntry type="ProviderPath" scope="iisapp" match="StarterSite" />
+    </parameter>
+
+    <parameter name="SetAclParameter1" description="Hidden - automatically sets write access for the app" defaultValue="{Application Path}/App_Data" tags="Hidden, NoDatabase">
+        <parameterEntry type="ProviderPath" scope="setAcl" match="StarterSite/App_Data" /> 
+    </parameter>
+
+</parameters>

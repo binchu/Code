@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="CRMConn4ContactMPCTest" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\OneVSO\\SP-CRMERP-Ccrm-xRM_Platform\\AzureConnector\\Source\\CRMConnectorRESTforOnline\\CRMConnectorAPIApp\\obj\\Debug\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^D:\\OneVSO\\SP-CRMERP-Ccrm-xRM_Platform\\AzureConnector\\Source\\CRMConnectorRESTforOnline\\CRMConnectorAPIApp\\obj\\Debug\\Package\\PackageTmp$" />
+  </parameter>
+</parameters>
